@@ -1,8 +1,10 @@
 import re
 
+
 def parse(string):
     print(f"input is: {string}")
     left_side, right_side = string.split('=')
+
     def parse_side(expression):
         print(f"expression in parse side {expression}")
         criterium = re.compile(r'([-+]?\d*)\s*\*?\s*(x?)\^?(\d*)')
