@@ -10,7 +10,7 @@ def parse(string):
         criterium = re.compile(r'([-+]?\d*)\s*\*?\s*(x?)\^?(\d*)')
         poly = {}
         signs = {'+': 1, '-': -1}
-        for c, x, p, in criterium.findall(string.replace(' ', '').replace('**', '^')):
+        for c, x, p, in criterium.findall(expression.replace(' ', '').replace('**', '^')):
             if not any((c, x, p)):
                 continue
             coeff = signs[c] if c in ('+', '-') else int(c or 1)
