@@ -7,13 +7,18 @@ def parse(string):
 
     def parse_side(expression):
         print(f"expression in parse side {expression}")
-        criterium = re.compile(r'([-+]?\d*)\s*\*?\s*(x?)\^?(\d*)')
+        criterium = re.compile(r'([-+]?\d*\.*\d*)\s*\*?\s*(x?)\^?(\d*)', re.IGNORECASE)
         poly = {}
         signs = {'+': 1, '-': -1}
         for c, x, p, in criterium.findall(expression.replace(' ', '').replace('**', '^')):
             if not any((c, x, p)):
                 continue
-            coeff = signs[c] if c in ('+', '-') else int(c or 1)
+            print(f"p is: {p}")
+            if c in ('+', '-'):
+                coeff = 1.0 if c == '+' else -1.0
+            else:
+                coeff = float(c) if '.' in c else int(c or 1)
+            # coeff = signs[c] if c in ('+', '-') else int(c or 1)
             power = int(p or 1) if x else 0
             print(f"coeff is {coeff} and power {power}")
             if power in poly:
