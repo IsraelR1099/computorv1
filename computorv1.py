@@ -1,6 +1,7 @@
 import sys
 import parser
 import re
+import solve
 
 
 def check_syntax(expression):
@@ -34,6 +35,5 @@ if __name__ == '__main__':
         sys.exit(1)
     valid_input = check_syntax(sys.argv[1])
     left_side, right_side = parser.parse(valid_input)
-    print(f"left side: {left_side}")
-    print(f"right side: {right_side}")
     parser.combine_sides(left_side, right_side)
+    solve.solve(left_side)

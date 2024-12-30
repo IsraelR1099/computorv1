@@ -37,5 +37,4 @@ def combine_sides(left_side, right_side):
             left_side[power] -= right_side[power]
         else:
             left_side[power] = -right_side[power]
-    print(f"left side: {left_side}")
     return left_side
