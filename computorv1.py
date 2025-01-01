@@ -2,9 +2,10 @@ import sys
 import parser
 import re
 import solve
+import argparse
 
 
-def check_syntax(expression):
+def check_syntax(expression) -> str:
     try:
         left, right = expression.split('=')
     except ValueError:
@@ -33,7 +34,22 @@ if __name__ == '__main__':
     if len(sys.argv) < 2:
         print("Error: wrong number of arguments")
         sys.exit(1)
-    valid_input = check_syntax(sys.argv[1])
+    parsing = argparse.ArgumentParser()
+    parsing.add_argument(
+        "equation",
+        help="equation to solve",
+        type=str
+    )
+    parsing.add_argument(
+        "-p", "--plot",
+        help="plot the equation",
+        action="store_true",
+        default=False
+    )
+    args = parsing.parse_args()
+    plot = args.plot
+    expression = args.equation
+    valid_input = check_syntax(expression)
     left_side, right_side = parser.parse(valid_input)
     parser.combine_sides(left_side, right_side)
-    solve.solve(left_side)
+    solve.solve(left_side, plot)

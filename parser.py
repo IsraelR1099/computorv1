@@ -1,7 +1,7 @@
 import re
 
 
-def parse(string):
+def parse(string) -> tuple:
     left_side, right_side = string.split('=')
 
     def parse_side(expression):
@@ -25,16 +25,41 @@ def parse(string):
             poly[power] = coeff
         return poly
     left_poly = parse_side(left_side)
-    # print(f"left poly is: {left_poly}")
     right_poly = parse_side(right_side)
-    # print(f"right poly is: {right_poly}")
     return left_poly, right_poly
 
 
-def combine_sides(left_side, right_side):
+def format_equation(equation) -> str:
+    """
+    Format the equation dictionary into a readable string
+    """
+    terms = []
+    for power, coeff in sorted(equation.items(), reverse=True):
+        if coeff == 0:
+            continue
+        term = f"{coeff}" if power == 0 else f"{coeff}*X^{power}" if power > 1 else f"{coeff}*X"
+        terms.append(term)
+    return " + ".join(terms).replace("+ -", "- ")
+
+
+def combine_sides(left_side, right_side) -> dict:
+    """
+    Combine terms from right_side into left_side
+    Display intermediate steps
+    """
+    print("Combining sides of the equation:")
+    print("Initial left side:", format_equation(left_side))
+    print("Initial right side:", format_equation(right_side))
     for power in right_side:
         if power in left_side:
+            print(
+                f"For X^{power}: {left_side[power]} (from left side) - {right_side[power]} (from right side)"
+            )
             left_side[power] -= right_side[power]
         else:
+            print(
+                f"For X^{power}: Adding -{right_side[power]} to the left side"
+            )
             left_side[power] = -right_side[power]
+    print("Resulting combined equation:", format_equation(left_side))
     return left_side
